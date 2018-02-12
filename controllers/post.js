@@ -26,6 +26,16 @@ router.param('slug', (req, res, next, slug) => {
 });
 
 /**
+ * Function to load the a comment onto the req
+ * id : Is the comment Id (cId)
+ */
+router.param('cId', (req, res, next, id) => {
+  req.comment = req.post.comments.id(id);
+  if (!req.comment) return next(Utils.Error('Not Found', 404));
+  return next();
+});
+
+/**
  * Route to return a Post with a given slug.
  */
 router.get('/:slug', (req, res, next) => {
@@ -72,6 +82,61 @@ router.delete('/:slug', (req, res, next) => {
     req.post.remove(function (err) {
       if (err) return next(Utils.Error('Failed to delete post', 500));
       return res.status(200).send({message: 'Post deleted successfully'});
+    })
+  } else {
+    return next(Utils.Error('Action Forbidden', 403));
+  }
+});
+
+//Comments routes
+
+/**
+ *Get all the comments for a given Post.
+ */
+router.get('/:slug/comments', (req, res) => {
+  return res.json(req.post.comments);
+});
+
+/**
+ * Route to add a comment to the post
+ * /posts/:slug/comments
+ */
+router.post('/:slug/comments', (req, res, next) => {
+  req.post.comments.push({
+    author: req.decode.userId,
+    body: req.body['body']
+  });
+  req.post.save()
+      .then(post => res.status(201).send(post))
+      .catch(err => next(err));
+});
+
+/**
+ * Route to update a comment.
+ * Only the admin, post owner or comment author should be able to edit the comment.
+ */
+router.put('/:slug/comments/:cId', (req, res, next) => {
+  if (req.decode.admin === true || req.decode.userId === req.comment.author || req.post.owner === req.decode.userId) {
+    req.comment.update(req.body['body'], function (err, post) {
+      if (err) return next(err);
+      return res.json(post);
+    })
+  } else {
+    return next(Utils.Error('Action Forbidden', 403));
+  }
+});
+
+/**
+ * Route to delete a comment.
+ * Only the admin, post owner or comment author should be able to delete a comment.
+ */
+router.delete('/:slug/comments/:cId', (req, res, next) => {
+  if (req.decode.admin === true || req.decode.userId === req.comment.author || req.post.owner === req.decode.userId) {
+    req.comment.remove(function (err) {
+      if (err) return next(Utils.Error('Failed to delete comment', 500));
+      req.post.save()
+          .then(post => res.json(post))
+          .catch(err => next(err));
     })
   } else {
     return next(Utils.Error('Action Forbidden', 403));

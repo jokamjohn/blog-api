@@ -20,4 +20,5 @@ router.get('/posts', (req, res, next) => {
 router.use('/auth', authRoutes);
 router.use('/posts', postsRoutes);
 
+
 module.exports = router;
