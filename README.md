@@ -10,6 +10,8 @@ Other signed users are also able to comment on the blog post.
 ```$xslt
 npm install
 ``` 
+- Rename `.env.example` to `.env` and fill in the values for
+the environment variables.
 - Install `nodemon` globally by running
 ```$xslt
 npm install -g nodemon
