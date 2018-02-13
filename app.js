@@ -11,7 +11,7 @@ const cors = require('./middlewares/cors');
 const errorHandler = require('./middlewares/errorHandler');
 
 //app port
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 //setting app secret
 app.set('secret', process.env.SECRET || 'fhdbsjnkcmlknjbhvgcfdxcvhjbkn');
