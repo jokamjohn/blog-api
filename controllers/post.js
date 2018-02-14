@@ -53,7 +53,8 @@ router.post('/', (req, res, next) => {
     body: req.body['body'],
     owner: {
       id: req.decode.userId,
-      name: req.decode.name
+      name: req.decode.name,
+      email: req.decode.email
     }
   });
   post.save()
@@ -108,7 +109,8 @@ router.post('/:slug/comments', (req, res, next) => {
   req.post.comments.push({
     author: {
       id: req.decode.userId,
-      name: req.decode.name
+      name: req.decode.name,
+      email: req.decode.email
     },
     body: req.body['body']
   });
