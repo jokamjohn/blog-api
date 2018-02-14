@@ -39,7 +39,7 @@ router.param('cId', (req, res, next, id) => {
  * Route to return a Post with a given slug.
  */
 router.get('/:slug', (req, res, next) => {
-  if ((req.post.owner === req.decode.userId) || req.decode.admin === true) return res.json(req.post);
+  if ((req.post.owner.id === req.decode.userId) || req.decode.admin === true) return res.json(req.post);
   return next(Utils.Error('Action Forbidden', 403));
 });
 
@@ -51,7 +51,10 @@ router.post('/', (req, res, next) => {
   const post = new Post({
     title: req.body['title'],
     body: req.body['body'],
-    owner: req.decode.userId
+    owner: {
+      id: req.decode.userId,
+      name: req.decode.name
+    }
   });
   post.save()
       .then(() => res.status(201).send(post))
@@ -63,7 +66,7 @@ router.post('/', (req, res, next) => {
  * /posts/<slug>
  */
 router.put('/:slug', (req, res, next) => {
-  if ((req.post.owner === req.decode.userId) || req.decode.admin === true) {
+  if ((req.post.owner.id === req.decode.userId) || req.decode.admin === true) {
     req.post.update(req.body, function (err, post) {
       if (err) return next(err);
       return res.json(post);
@@ -78,7 +81,7 @@ router.put('/:slug', (req, res, next) => {
  * /posts/<slug>
  */
 router.delete('/:slug', (req, res, next) => {
-  if ((req.post.owner === req.decode.userId) || req.decode.admin === true) {
+  if ((req.post.owner.id === req.decode.userId) || req.decode.admin === true) {
     req.post.remove(function (err) {
       if (err) return next(Utils.Error('Failed to delete post', 500));
       return res.status(200).send({message: 'Post deleted successfully'});
@@ -103,7 +106,10 @@ router.get('/:slug/comments', (req, res) => {
  */
 router.post('/:slug/comments', (req, res, next) => {
   req.post.comments.push({
-    author: req.decode.userId,
+    author: {
+      id: req.decode.userId,
+      name: req.decode.name
+    },
     body: req.body['body']
   });
   req.post.save()
@@ -116,7 +122,7 @@ router.post('/:slug/comments', (req, res, next) => {
  * Only the admin, post owner or comment author should be able to edit the comment.
  */
 router.put('/:slug/comments/:cId', (req, res, next) => {
-  if (req.decode.admin === true || req.decode.userId === req.comment.author || req.post.owner === req.decode.userId) {
+  if (req.decode.admin === true || req.decode.userId === req.comment.author.id || req.post.owner.id === req.decode.userId) {
     req.comment.update(req.body['body'], function (err, post) {
       if (err) return next(err);
       return res.json(post);
@@ -131,7 +137,7 @@ router.put('/:slug/comments/:cId', (req, res, next) => {
  * Only the admin, post owner or comment author should be able to delete a comment.
  */
 router.delete('/:slug/comments/:cId', (req, res, next) => {
-  if (req.decode.admin === true || req.decode.userId === req.comment.author || req.post.owner === req.decode.userId) {
+  if (req.decode.admin === true || req.decode.userId === req.comment.author.id || req.post.owner.id === req.decode.userId) {
     req.comment.remove(function (err) {
       if (err) return next(Utils.Error('Failed to delete comment', 500));
       req.post.save()
