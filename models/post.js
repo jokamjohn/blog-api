@@ -48,7 +48,7 @@ CommentSchema.method('update', function (body, callback) {
 
 //Post schema
 const PostSchema = new Schema({
-  owner: {type: String, required: true},
+  owner: {type: Object, required: true},
   slug: {type: String},
   title: {type: String, required: true},
   body: {type: String, required: true},
