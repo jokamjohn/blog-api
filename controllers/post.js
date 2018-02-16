@@ -36,14 +36,6 @@ router.param('cId', (req, res, next, id) => {
 });
 
 /**
- * Route to return a Post with a given slug.
- */
-router.get('/:slug', (req, res, next) => {
-  if ((req.post.owner.id === req.decode.userId) || req.decode.admin === true) return res.json(req.post);
-  return next(Utils.Error('Action Forbidden', 403));
-});
-
-/**
  * Route to create a blog post.
  * /posts
  */
