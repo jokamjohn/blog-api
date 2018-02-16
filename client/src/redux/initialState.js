@@ -1,4 +1,11 @@
+import {isLoggedIn} from "../utils/authService";
+
 export default {
-  auth: {},
-  posts: {}
+  auth: {
+    isLoggedIn: isLoggedIn() || false
+  },
+  blog: {
+    posts: [],
+    post: {}
+  }
 };

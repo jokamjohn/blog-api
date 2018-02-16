@@ -1,0 +1,55 @@
+import axios from 'axios';
+
+let api = null;
+
+/**
+ * This returns the intialized api
+ * @returns {*}
+ */
+const getIntializedApi = () => {
+  if (api) return api;
+  return (api = axios.create({
+    baseURL: getBaseUrl(),
+    responseType: 'json'
+  }));
+};
+
+/**
+ *
+ * @returns {string}
+ */
+const getBaseUrl = () => 'http://localhost:5000/api/v1/';
+
+/**
+ * Get method on the axios instance
+ * @param url
+ * @param config
+ */
+export const get = (url, config = null) => getIntializedApi().get(url, config);
+
+/**
+ * Post method on the axios instance.
+ * @param url
+ * @param data
+ * @param config
+ * @returns {*|AxiosPromise<any>}
+ */
+export const post = (url, data, config = null) => getIntializedApi().post(url, data, config);
+
+/**
+ * Put method on the axios instance
+ * @param url
+ * @param data
+ * @param config
+ * @returns {AxiosPromise<any> | IDBRequest | Promise<void>}
+ */
+export const put = (url, data, config = null) => getIntializedApi().put(url, data, config);
+
+/**
+ * Delete method on the axios instance
+ * @param url
+ * @param config
+ * @returns {AxiosPromise | boolean | Promise<boolean> | void | IDBRequest}
+ */
+export const del = (url, config = null) => getIntializedApi().delete(url, config);
+
