@@ -19,7 +19,7 @@ app.set('secret', process.env.SECRET || 'fhdbsjnkcmlknjbhvgcfdxcvhjbkn');
 //app middleware
 app.use(logger('dev'));
 app.use(jsonParser());
-app.use(cors);
+app.use(cors.CORS);
 
 
 //routes
