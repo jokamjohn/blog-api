@@ -2,8 +2,10 @@ import React from 'react';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import gravatar from "gravatar";
+import {userCanEditORDeleteComment} from "../../utils/authService";
+import {deleteCommentFromAPI} from "../../redux/actions/posts";
 
-const Comment = ({comment}) => (
+const Comment = ({comment, postOwnerId, slug, dispatch}) => (
     <div style={{marginBottom: "10px"}}>
       <Card>
         <CardHeader
@@ -13,10 +15,13 @@ const Comment = ({comment}) => (
         <CardText>
           {comment.body}
         </CardText>
+        {userCanEditORDeleteComment(postOwnerId, comment.author.id)
+        &&
         <CardActions>
           <FlatButton label="Edit"/>
-          <FlatButton label="Delete"/>
+          <FlatButton label="Delete" onClick={() => dispatch(deleteCommentFromAPI(slug, comment._id))}/>
         </CardActions>
+        }
       </Card>
     </div>
 );

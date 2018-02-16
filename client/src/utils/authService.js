@@ -51,10 +51,54 @@ export const isLoggedIn = () => {
  * Get object to be used in axios as the token config.
  * @returns {{"x-access-token": string}}
  */
-export const getTokenConfig = () => ({'x-access-token': getToken()});
+export const getTokenConfig = () => ({headers: {'x-access-token': getToken()}});
 
 /**
  * Clear the token in local storage.
  * @returns {*}
  */
 export const signout = () => clearToken();
+
+/**
+ * True if the user is an admin.
+ * @returns {*}
+ */
+const isAdmin = () => {
+  if (isLoggedIn()) return decode(getToken()).admin;
+  return false;
+};
+
+/**
+ * Find the author of a blog post.
+ * @param postOwnerId
+ * @returns {boolean}
+ */
+const isPostAuthor = postOwnerId => {
+  if (isLoggedIn()) return decode(getToken()).userId === postOwnerId;
+  return false
+};
+
+/**
+ * Find the comment author.
+ * @param commentAuthorId
+ * @returns {boolean}
+ */
+const isCommentOwner = commentAuthorId => {
+  if (isLoggedIn()) return decode(getToken()).userId === commentAuthorId;
+  return false;
+};
+
+/**
+ * User can edit or delete a blog post.
+ * @param postOwnerId
+ * @returns {*|boolean}
+ */
+export const userCanEditOrDeletePost = postOwnerId => isAdmin() || isPostAuthor(postOwnerId);
+
+/**
+ * User can edit or delete a blog comment.
+ * @param postOwnerId
+ * @param commentOwnerId
+ * @returns {*|boolean}
+ */
+export const userCanEditORDeleteComment = (postOwnerId, commentOwnerId) => isAdmin() || isPostAuthor(postOwnerId) || isCommentOwner(commentOwnerId);

@@ -1,5 +1,8 @@
 import initialState from "../initialState";
-import {GET_ONE_POST_SUCCESSFULLY, GET_POSTS_SUCCESSFULLY} from "../actionTypes/actionsTypes";
+import {
+  DELETE_ACTION_SUCCESSFULLY, GET_ONE_POST_SUCCESSFULLY,
+  GET_POSTS_SUCCESSFULLY
+} from "../actionTypes/actionsTypes";
 
 export default function (state = initialState.blog, action) {
   switch (action.type) {
@@ -15,6 +18,8 @@ export default function (state = initialState.blog, action) {
         ...state,
         post: action.post
       };
+    case DELETE_ACTION_SUCCESSFULLY:
+      return state;
     default:
       return state
   }

@@ -11,10 +11,12 @@ class Post extends React.Component {
   }
 
   render() {
-    const {post} = this.props;
+    const {post, dispatch, match} = this.props;
     return (
         <React.Fragment>
-          {post.body ? <PostCard post={post}/> : <div>Post cannot be Found</div>}
+          {post.body ? <PostCard post={post} dispatch={dispatch} slug={match.params.slug}/>
+              :
+              <div>Post cannot be Found</div>}
         </React.Fragment>
     )
   }

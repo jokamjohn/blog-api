@@ -1,4 +1,4 @@
-import {get, post, put, del} from "./api";
+import {post, del} from "./api";
 import {getTokenConfig} from "../utils/authService";
 
 /**
