@@ -1,9 +1,9 @@
 import {
-  ADD_COMMENT_TO_POST,
+  ADD_COMMENT_TO_POST, ADD_POST,
   DELETE_COMMENT_ACTION_SUCCESSFULLY, DELETE_POST_ACTION_SUCCESSFULLY, GET_ONE_POST_SUCCESSFULLY,
   GET_POSTS_SUCCESSFULLY
 } from "../actionTypes/actionsTypes";
-import {deletePost, getPostBySlug, getPosts} from "../../api/postsAPI";
+import {addPost, deletePost, getPostBySlug, getPosts} from "../../api/postsAPI";
 import {addComment, deleteComment} from "../../api/commentsAPI";
 
 /**
@@ -29,7 +29,7 @@ export const getBlogPosts = () => dispatch => getPosts()
  * @param post
  * @returns {{type, post: *}}
  */
-export const addPost = post => ({
+export const addPostToState = post => ({
   type: GET_ONE_POST_SUCCESSFULLY,
   post
 });
@@ -40,7 +40,7 @@ export const addPost = post => ({
  * @returns {function(*): Promise<T | void>}
  */
 export const getBlogPost = slug => dispatch => getPostBySlug(slug)
-    .then(response => dispatch(addPost(response.data)))
+    .then(response => dispatch(addPostToState(response.data)))
     .catch(err => console.log('Getting post ', err));
 
 /**
@@ -98,3 +98,20 @@ export const addCommentToAPI = (slug, comment) => dispatch => addComment(slug, c
     .then(() => dispatch(createComment()))
     .then(() => dispatch(getBlogPost(slug)))
     .catch(err => console.log('Error adding comment', err));
+
+/**
+ * Action to add posts.
+ * @returns {{type}}
+ */
+const createPost = () => ({
+  type: ADD_POST
+});
+
+/**
+ * Async action to add a post to the api.
+ * @param post
+ * @returns {function(*): (Promise|*|Promise<T | void>)}
+ */
+export const addPostToAPI = post => dispatch => addPost(post)
+    .then(() => dispatch(createPost()))
+    .catch(err => console.log('error adding post', err));

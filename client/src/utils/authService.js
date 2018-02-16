@@ -102,3 +102,21 @@ export const userCanEditOrDeletePost = postOwnerId => isAdmin() || isPostAuthor(
  * @returns {*|boolean}
  */
 export const userCanEditORDeleteComment = (postOwnerId, commentOwnerId) => isAdmin() || isPostAuthor(postOwnerId) || isCommentOwner(commentOwnerId);
+
+/**
+ * Get the name of the current user.
+ * @returns {*}
+ */
+export const getUsername = () => {
+  if (isLoggedIn()) return decode(getToken()).name;
+  return '';
+};
+
+/**
+ * Get the current user email.
+ * @returns {*}
+ */
+export const getEmail = () => {
+  if (isLoggedIn()) return decode(getToken()).email;
+  return '';
+};

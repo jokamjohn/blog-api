@@ -1,4 +1,4 @@
-import {get, put, del} from "./api";
+import {get, post, put, del} from "./api";
 import {getTokenConfig} from "../utils/authService";
 
 /**
@@ -16,11 +16,10 @@ export const getPostBySlug = slug => get(`/posts/${slug}`);
 
 /**
  * Add a post to the application.
- * @param slug
- * @param post
+ * @param data
  * @returns {*|AxiosPromise<any>}
  */
-export const addPost = (slug, post) => post('/posts', post, getTokenConfig());
+export const addPost = data => post('/posts', data, getTokenConfig());
 
 /**
  * Edit a post in the application.
