@@ -1,8 +1,8 @@
 import {
-  DELETE_ACTION_SUCCESSFULLY, GET_ONE_POST_SUCCESSFULLY,
+  DELETE_COMMENT_ACTION_SUCCESSFULLY, DELETE_POST_ACTION_SUCCESSFULLY, GET_ONE_POST_SUCCESSFULLY,
   GET_POSTS_SUCCESSFULLY
 } from "../actionTypes/actionsTypes";
-import {getPostBySlug, getPosts} from "../../api/postsAPI";
+import {deletePost, getPostBySlug, getPosts} from "../../api/postsAPI";
 import {deleteComment} from "../../api/commentsAPI";
 
 /**
@@ -47,7 +47,7 @@ export const getBlogPost = slug => dispatch => getPostBySlug(slug)
  * @returns {{type}}
  */
 const delComment = () => ({
-  type: DELETE_ACTION_SUCCESSFULLY
+  type: DELETE_COMMENT_ACTION_SUCCESSFULLY
 });
 
 /**
@@ -60,3 +60,21 @@ export const deleteCommentFromAPI = (slug, commentId) => dispatch => deleteComme
     .then(() => dispatch(delComment()))
     .then(() => dispatch(getBlogPost(slug)))
     .catch(err => console.log(err.response));
+
+/**
+ * Action to delete a post
+ * @returns {{type}}
+ */
+const delPost = () => ({
+  type: DELETE_POST_ACTION_SUCCESSFULLY
+});
+
+/**
+ * Async action to delete a post.
+ * @param slug
+ * @returns {function(*): Promise<(function(*): Promise<(function(*): Promise<T|void>)|void>) | void>}
+ */
+export const deletePostFromAPI = slug => dispatch => deletePost(slug)
+    .then(() => dispatch(delPost()))
+    .then(() => dispatch(getBlogPosts()))
+    .catch(err => console.log('Error deleting post', err));

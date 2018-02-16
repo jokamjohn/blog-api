@@ -7,7 +7,7 @@ import AddComment from "./addComment";
 import {date} from "../../utils/helper";
 import {userCanEditOrDeletePost} from "../../utils/authService";
 
-const PostCard = ({post, slug, dispatch}) => (
+const PostCard = ({post, slug, dispatch, onDelete}) => (
     <div style={{
       display: "flex",
       alignItems: "center",
@@ -30,7 +30,7 @@ const PostCard = ({post, slug, dispatch}) => (
           {userCanEditOrDeletePost(post.owner.id) &&
           <CardActions>
             <FlatButton label="Edit"/>
-            <FlatButton label="Delete"/>
+            <FlatButton label="Delete" onClick={() => onDelete(slug)}/>
           </CardActions>
           }
         </Card>}
