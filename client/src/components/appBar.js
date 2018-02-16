@@ -38,7 +38,7 @@ const Logged = (props) => (
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
     >
       <NavLink to='/posts'><MenuItem primaryText="Posts"/></NavLink>
-      <NavLink to='/login'><MenuItem primaryText="Sign out"/></NavLink>
+      <NavLink to='/logout'><MenuItem primaryText="Sign out"/></NavLink>
     </IconMenu>
 );
 
@@ -50,7 +50,7 @@ class Login extends Component {
 
   render() {
     return (
-        <NavLink to='/login'><FlatButton {...this.props} label="Login" href='/login'/></NavLink>
+        <NavLink to='/login'><FlatButton {...this.props} label="Login"/></NavLink>
     );
   }
 }

@@ -52,3 +52,9 @@ export const isLoggedIn = () => {
  * @returns {{"x-access-token": string}}
  */
 export const getTokenConfig = () => ({'x-access-token': getToken()});
+
+/**
+ * Clear the token in local storage.
+ * @returns {*}
+ */
+export const signout = () => clearToken();
