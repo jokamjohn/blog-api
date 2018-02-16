@@ -2,7 +2,7 @@ import React from 'react';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import ApplicationBar from "./appBar";
 import LoginCard from "./auth/login";
-import RegisterCard from "./register";
+import RegisterCard from "./auth/register";
 import Posts from "./posts/Posts";
 import Post from "./posts/post";
 import Logout from "./auth/logout";

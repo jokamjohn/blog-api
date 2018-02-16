@@ -1,5 +1,5 @@
-import {LOGOUT_USER_SUCCESSFULLY, USER_LOGIN_SUCCESS} from "../actionTypes/actionsTypes";
-import {loginUser} from "../../api/userAPI";
+import {LOGOUT_USER_SUCCESSFULLY, REGISTER_USER_SUCCESSFULLY, USER_LOGIN_SUCCESS} from "../actionTypes/actionsTypes";
+import {loginUser, registerUser} from "../../api/userAPI";
 import {isLoggedIn, setToken} from "../../utils/authService";
 
 /**
@@ -31,4 +31,22 @@ export const logout = isLoggedIn => ({
   type: LOGOUT_USER_SUCCESSFULLY,
   isLoggedIn
 });
+
+/**
+ * Action to show user registration
+ * @returns {{type}}
+ */
+export const addUserToApp = () => ({
+  type: REGISTER_USER_SUCCESSFULLY
+});
+
+/**
+ * Async action to register a user to the api.
+ * @param data
+ * @returns {function(*): Promise<T | void>}
+ */
+export const addUserToAPI = data => dispatch => registerUser(data)
+    .then(() => dispatch(addUserToApp()))
+    .catch(err => console.log('err registering user', err));
+
 

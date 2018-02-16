@@ -50,7 +50,10 @@ class Login extends Component {
 
   render() {
     return (
-        <NavLink to='/login'><FlatButton {...this.props} label="Login"/></NavLink>
+        <React.Fragment>
+          <NavLink to='/register'><FlatButton {...this.props} label="Register"/></NavLink>
+          <NavLink to='/login'><FlatButton {...this.props} label="Login"/></NavLink>
+        </React.Fragment>
     );
   }
 }
