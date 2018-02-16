@@ -21,7 +21,7 @@ module.exports = (err, req, res, next) => {
  * @param next
  */
 module.exports.catch404 = (req, res, next) => {
-  let error = new Error("Not Found");
+  let error = new Error("Route Not Found");
   error.status = 404;
   next(error);
 };
