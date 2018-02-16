@@ -36,7 +36,7 @@ const PostCard = ({post, slug, dispatch, onDelete}) => (
         </Card>}
       </div>
       <div style={{width: "50%", marginTop: "10px"}}>
-        <AddComment/>
+        <AddComment slug={slug}/>
       </div>
       <div style={{width: "50%", marginTop: "30px", marginBottom: "10px"}}>
         {post.comments && post.comments.map(comment =>

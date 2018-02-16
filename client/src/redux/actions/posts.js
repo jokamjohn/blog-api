@@ -1,9 +1,10 @@
 import {
+  ADD_COMMENT_TO_POST,
   DELETE_COMMENT_ACTION_SUCCESSFULLY, DELETE_POST_ACTION_SUCCESSFULLY, GET_ONE_POST_SUCCESSFULLY,
   GET_POSTS_SUCCESSFULLY
 } from "../actionTypes/actionsTypes";
 import {deletePost, getPostBySlug, getPosts} from "../../api/postsAPI";
-import {deleteComment} from "../../api/commentsAPI";
+import {addComment, deleteComment} from "../../api/commentsAPI";
 
 /**
  * Action to add posts to state
@@ -78,3 +79,22 @@ export const deletePostFromAPI = slug => dispatch => deletePost(slug)
     .then(() => dispatch(delPost()))
     .then(() => dispatch(getBlogPosts()))
     .catch(err => console.log('Error deleting post', err));
+
+/**
+ * Action to add an item
+ * @returns {{type}}
+ */
+const createComment = () => ({
+  type: ADD_COMMENT_TO_POST
+});
+
+/**
+ * Async action to add comment to the api.
+ * @param slug
+ * @param comment
+ * @returns {function(*): Promise<T | void>}
+ */
+export const addCommentToAPI = (slug, comment) => dispatch => addComment(slug, comment)
+    .then(() => dispatch(createComment()))
+    .then(() => dispatch(getBlogPost(slug)))
+    .catch(err => console.log('Error adding comment', err));
