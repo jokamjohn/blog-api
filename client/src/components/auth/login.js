@@ -30,7 +30,8 @@ class LoginCard extends React.Component {
   };
 
   render() {
-    if (this.props.isLoggedIn) return <Redirect to='/'/>;
+    const {from} = this.props.location.state || {from: {pathname: '/posts'}};
+    if (this.props.isLoggedIn) return <Redirect to={from}/>;
     const {email, password, emailError, passwordError} = this.state;
     return (
         <React.Fragment>
