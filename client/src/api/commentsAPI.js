@@ -1,4 +1,4 @@
-import {post, del} from "./api";
+import {post, put, del} from "./api";
 import {getTokenConfig} from "../utils/authService";
 
 /**
@@ -16,7 +16,7 @@ export const addComment = (slug, comment) => post(`posts/${slug}/comments`, comm
  * @param comment
  * @returns {*|AxiosPromise<any>}
  */
-export const editComment = (slug, commentId, comment) => post(`posts/${slug}/comments/${commentId}`, comment, getTokenConfig());
+export const editComment = (slug, commentId, comment) => put(`posts/${slug}/comments/${commentId}`, comment, getTokenConfig());
 
 /**
  * Delete a comment via the api.

@@ -1,10 +1,11 @@
 import {
   ADD_COMMENT_TO_POST, ADD_POST,
-  DELETE_COMMENT_ACTION_SUCCESSFULLY, DELETE_POST_ACTION_SUCCESSFULLY, GET_ONE_POST_SUCCESSFULLY,
+  DELETE_COMMENT_ACTION_SUCCESSFULLY, DELETE_POST_ACTION_SUCCESSFULLY, EDIT_COMMENT, GET_ONE_POST_SUCCESSFULLY,
   GET_POSTS_SUCCESSFULLY
 } from "../actionTypes/actionsTypes";
 import {addPost, deletePost, getPostBySlug, getPosts} from "../../api/postsAPI";
-import {addComment, deleteComment} from "../../api/commentsAPI";
+import {addComment, deleteComment, editComment} from "../../api/commentsAPI";
+import {logout} from "./auth";
 
 /**
  * Action to add posts to state
@@ -49,6 +50,7 @@ export const getBlogPost = slug => dispatch => getPostBySlug(slug)
  */
 const delComment = () => ({
   type: DELETE_COMMENT_ACTION_SUCCESSFULLY
+
 });
 
 /**
@@ -60,7 +62,12 @@ const delComment = () => ({
 export const deleteCommentFromAPI = (slug, commentId) => dispatch => deleteComment(slug, commentId)
     .then(() => dispatch(delComment()))
     .then(() => dispatch(getBlogPost(slug)))
-    .catch(err => console.log(err.response));
+    .catch(err => {
+      if (err.response) {
+        if (err.response.status === 400) return dispatch(logout(false));
+        return;
+      }
+    });
 
 /**
  * Action to delete a post
@@ -78,7 +85,12 @@ const delPost = () => ({
 export const deletePostFromAPI = slug => dispatch => deletePost(slug)
     .then(() => dispatch(delPost()))
     .then(() => dispatch(getBlogPosts()))
-    .catch(err => console.log('Error deleting post', err));
+    .catch(err => {
+      if (err.response) {
+        if (err.response.status === 400) return dispatch(logout(false));
+        return;
+      }
+    });
 
 /**
  * Action to add an item
@@ -97,7 +109,12 @@ const createComment = () => ({
 export const addCommentToAPI = (slug, comment) => dispatch => addComment(slug, comment)
     .then(() => dispatch(createComment()))
     .then(() => dispatch(getBlogPost(slug)))
-    .catch(err => console.log('Error adding comment', err));
+    .catch(err => {
+      if (err.response) {
+        if (err.response.status === 400) return dispatch(logout(false));
+        return;
+      }
+    });
 
 /**
  * Action to add posts.
@@ -115,3 +132,28 @@ const createPost = () => ({
 export const addPostToAPI = post => dispatch => addPost(post)
     .then(() => dispatch(createPost()))
     .catch(err => console.log('error adding post', err));
+
+/**
+ *
+ * @returns {{type}}
+ */
+const editCommentInApp = post => ({
+  type: EDIT_COMMENT,
+  post
+});
+
+/**
+ * Send the updated comment body to the API.
+ * @param comment Comment object {body: <text>}
+ * @param slug Post slug
+ * @param commentId comment Id
+ * @returns {function(*): Promise<T | void>}
+ */
+export const editCommentOnAPI = (comment, slug, commentId) => dispatch => editComment(slug, commentId, comment)
+    .then(res => dispatch(editCommentInApp(res.data)))
+    .catch(err => {
+      if (err.response) {
+        if (err.response.status === 400) return dispatch(logout(false));
+        return;
+      }
+    });

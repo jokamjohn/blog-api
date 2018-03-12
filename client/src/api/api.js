@@ -6,7 +6,7 @@ let api = null;
  * This returns the intialized api
  * @returns {*}
  */
-const getIntializedApi = () => {
+const getInitializedApi = () => {
   if (api) return api;
   return (api = axios.create({
     baseURL: getBaseUrl(),
@@ -25,7 +25,7 @@ const getBaseUrl = () => 'http://localhost:5000/api/v1/';
  * @param url
  * @param config
  */
-export const get = (url, config = null) => getIntializedApi().get(url, config);
+export const get = (url, config = null) => getInitializedApi().get(url, config);
 
 /**
  * Post method on the axios instance.
@@ -34,7 +34,7 @@ export const get = (url, config = null) => getIntializedApi().get(url, config);
  * @param config
  * @returns {*|AxiosPromise<any>}
  */
-export const post = (url, data, config = null) => getIntializedApi().post(url, data, config);
+export const post = (url, data, config = null) => getInitializedApi().post(url, data, config);
 
 /**
  * Put method on the axios instance
@@ -43,7 +43,7 @@ export const post = (url, data, config = null) => getIntializedApi().post(url, d
  * @param config
  * @returns {AxiosPromise<any> | IDBRequest | Promise<void>}
  */
-export const put = (url, data, config = null) => getIntializedApi().put(url, data, config);
+export const put = (url, data, config = null) => getInitializedApi().put(url, data, config);
 
 /**
  * Delete method on the axios instance
@@ -51,5 +51,5 @@ export const put = (url, data, config = null) => getIntializedApi().put(url, dat
  * @param config
  * @returns {AxiosPromise | boolean | Promise<boolean> | void | IDBRequest}
  */
-export const del = (url, config = null) => getIntializedApi().delete(url, config);
+export const del = (url, config = null) => getInitializedApi().delete(url, config);
 

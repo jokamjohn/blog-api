@@ -1,7 +1,7 @@
 import initialState from "../initialState";
 import {
   ADD_COMMENT_TO_POST,
-  DELETE_COMMENT_ACTION_SUCCESSFULLY, DELETE_POST_ACTION_SUCCESSFULLY, GET_ONE_POST_SUCCESSFULLY,
+  DELETE_COMMENT_ACTION_SUCCESSFULLY, DELETE_POST_ACTION_SUCCESSFULLY, EDIT_COMMENT, GET_ONE_POST_SUCCESSFULLY,
   GET_POSTS_SUCCESSFULLY
 } from "../actionTypes/actionsTypes";
 
@@ -20,6 +20,8 @@ export default function (state = initialState.blog, action) {
         post: action.post
       };
     case ADD_COMMENT_TO_POST:
+      return state;
+    case EDIT_COMMENT:
       return state;
     case DELETE_COMMENT_ACTION_SUCCESSFULLY:
       return state;
