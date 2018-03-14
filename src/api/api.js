@@ -18,7 +18,10 @@ const getInitializedApi = () => {
  *
  * @returns {string}
  */
-const getBaseUrl = () => 'http://localhost:5000/api/v1/';
+const getBaseUrl = () => {
+  const baseUrl = process.env.REACT_APP_API_BASE_URL;
+  return `${baseUrl}/api/v1/`;
+};
 
 /**
  * Get method on the axios instance
